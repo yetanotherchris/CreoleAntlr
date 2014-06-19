@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using HtmlAgilityPack;
 
 namespace CreoleAntlr
 {
@@ -12,61 +14,78 @@ namespace CreoleAntlr
 	{
 		private static void Main(string[] args)
 		{
-			new Program().Run();
-		}
-
-		public void Run()
-		{
-			try
-			{
-				Console.WriteLine("START");
-				RunParser();
-				Console.Write("DONE. Hit RETURN to exit: ");
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("ERROR: " + ex);
-				Console.Write("Hit RETURN to exit: ");
-			}
+			RunParser();
 			Console.ReadLine();
 		}
 
-		private void RunParser()
+		static void RunParser()
 		{
-			AntlrInputStream inputStream = new AntlrInputStream("test some *new*\n");
+			AntlrInputStream inputStream = new AntlrInputStream(File.OpenText("testinput.txt"));
 			CreoleLexer creoleLexer = new CreoleLexer(inputStream);
-
 			CommonTokenStream commonTokenStream = new CommonTokenStream(creoleLexer);
 
-			CreoleParser creoleParser = new CreoleParser(commonTokenStream);
-			CreoleParser.DocumentContext context = creoleParser.document
+			CreoleParser parser = new CreoleParser(commonTokenStream);
+			IParseTree tree = parser.document();
 
-			Console.Write(context.ToStringTree());
-			//ParseTreeWalker walker = new ParseTreeWalker();
-			//CreoleBaseListener listener = new CreoleBaseListener();
-			//walker.Walk(listener, );
-
-			//MyVisitor visitor = new MyVisitor();
-			//visitor.VisitDocument(context);
+			var visitor = new MyVisitor();
+			visitor.Visit(tree);
+			HtmlDocument doc = visitor.Document;
+			Console.WriteLine(doc.DocumentNode.InnerHtml);
 		}
 	}
 
-	public class MyVisitor : CreoleBaseVisitor<object>
+	public class MyVisitor : CreoleBaseVisitor<string>
 	{
-		public override object VisitDocument(CreoleParser.DocumentContext context)
+		public HtmlDocument Document { get; set; }
+		private HtmlNode _currentNode;
+
+		public MyVisitor()
 		{
-			Console.WriteLine("VisitDocument");
-			return base.VisitDocument(context);
+			Document = new HtmlDocument();
+			_currentNode = Document.DocumentNode;
 		}
 
-		public override object VisitMarkup(CreoleParser.MarkupContext context)
+		public override string VisitText(CreoleParser.TextContext context)
 		{
-			return base.VisitMarkup(context);
+			Console.WriteLine("Text: {0}", context.GetText());
+			_currentNode.InnerHtml = context.GetText();
+			return base.VisitText(context);
 		}
 
-		private void Visit(TerminalNodeImpl node)
+		public override string Visit(IParseTree tree)
 		{
-			Console.WriteLine(" Visit Symbol={0}", node.Symbol.Text);
+			return base.Visit(tree);
 		}
+
+		public override string VisitBold(CreoleParser.BoldContext context)
+		{
+			AddNode("strong");
+			return base.VisitBold(context);
+		}
+
+		public override string VisitItalics(CreoleParser.ItalicsContext context)
+		{
+			AddNode("em");
+			return base.VisitItalics(context);
+		}
+
+		private void AddNode(string name)
+		{
+			//if (_currentNode.Name != name)
+			//{
+				var newNode = new HtmlNode(HtmlNodeType.Element, Document, 0);
+				newNode.Name = name;
+
+				_currentNode.AppendChild(newNode);
+				_currentNode = newNode;
+			//}
+		}
+
+		//public override string VisitTerminal(ITerminalNode node)
+		//{
+		//	Console.WriteLine("Text: {0}", node.Symbol.Text);
+
+		//	return base.VisitTerminal(node);
+		//}
 	}
 }
