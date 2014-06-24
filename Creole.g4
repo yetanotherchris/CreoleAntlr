@@ -12,7 +12,7 @@ markup
     : bold
     | italics
     | href
-    | title
+    | h1
     | hline
     | text
     | listitem
@@ -27,11 +27,11 @@ text
     ;
  
 bold
-    : '**' markup+ '**'?
+    : '**' (text|href|image|italics)+ '**'?
     ;
  
 italics
-    : RSLASH RSLASH markup+ RSLASH RSLASH
+    : '//' (text|href|image|bold)+ '//'
     ;
  
 href
@@ -40,7 +40,7 @@ href
     ;
  
 image
-    : LBRACE text RBRACE
+    : '[' text ']'
     ;
  
 hline
@@ -60,8 +60,8 @@ tablerow
     : ('|' markup+)+ '|' WS*
     ;
  
-title
-    : '='+ markup '='*
+h1
+    : '=' text '='* CR 
     ;
  
 nowiki
