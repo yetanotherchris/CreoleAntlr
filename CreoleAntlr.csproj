@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Creole - Copy.g4.lexer.cs">
+      <DependentUpon>CreoleParagraphs.g4</DependentUpon>
+    </Compile>
+    <Compile Include="Creole - Copy.g4.parser.cs">
+      <DependentUpon>CreoleParagraphs.g4</DependentUpon>
+    </Compile>
     <Compile Include="Creole.g4.lexer.cs">
       <DependentUpon>Creole.g4</DependentUpon>
     </Compile>
@@ -61,6 +67,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <Antlr4 Include="Creole.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>CreoleAntlr</CustomToolNamespace>
+    </Antlr4>
+    <Antlr4 Include="CreoleParagraphs.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>CreoleAntlr</CustomToolNamespace>
     </Antlr4>

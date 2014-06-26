@@ -12,7 +12,7 @@ markup
     : bold
     | italics
     | href
-    | h1
+    | h1 | h2 | h3 | h4 | h5 | h6
     | hline
     | text
     | listitem
@@ -61,8 +61,36 @@ tablerow
     ;
  
 h1
-    : '=' text '='* CR 
+    : '=' validHeaderContent '='* CR 
     ;
+
+h2
+    : '==' validHeaderContent '='* CR 
+    ;
+
+h3
+    : '===' validHeaderContent '='* CR 
+    ;
+
+h4
+    : '====' validHeaderContent '='* CR 
+    ;
+
+h5
+    : '=====' validHeaderContent '='* CR 
+    ;
+	
+h6
+    : '======' validHeaderContent '='* CR 
+    ;
+
+validHeaderContent
+	: ~'=' validHeaderText+
+	;
+
+validHeaderText
+	: text | '*' | '/'
+	;
  
 nowiki
     : NOWIKI
