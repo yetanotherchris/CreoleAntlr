@@ -1,10 +1,6 @@
-some text: value
+some txt: value
 
 
 paragraph two text
-
-
-
 paragraph three text
-
 == h1 is here

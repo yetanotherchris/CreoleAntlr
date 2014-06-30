@@ -42,7 +42,6 @@ namespace CreoleAntlr
 
 			IParseTree tree = parser.file();
 			Console.WriteLine(htmlBuilder);
-			Console.ReadKey();
 		}
 
 		static void RunFullParser()
@@ -64,8 +63,6 @@ namespace CreoleAntlr
 			HtmlDocument doc = htmlBuilder.Document;
 			//Console.WriteLine(doc.DocumentNode.InnerHtml);
 			Console.WriteLine(htmlBuilder);
-
-			Console.ReadKey();
 		}
 	}
 }
