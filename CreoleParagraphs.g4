@@ -1,15 +1,7 @@
 grammar CreoleParagraphs;
 
-  
-document
-    : paragraph*
-    ;
 
-paragraph
-	: ~'%' CR
-	;
-
-CR
-    : '\r'? '\n'
-    | EOF
-    ;
+file: paragraph+ EOF; 
+paragraph: TEXT '\r'? '\n'; 
+blankline: '\r'? '\n';
+TEXT   : ~[\n\r]+; 

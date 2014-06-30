@@ -41,7 +41,7 @@ namespace CreoleAntlr
 			CreoleParagraphsParser parser = new CreoleParagraphsParser(commonTokenStream);
 			parser.AddParseListener(listener);
 
-			IParseTree tree = parser.document();
+			IParseTree tree = parser.file();
 			Console.WriteLine(htmlBuilder);
 			Console.ReadKey();
 		}
