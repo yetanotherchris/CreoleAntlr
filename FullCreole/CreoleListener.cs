@@ -1,4 +1,4 @@
-﻿namespace CreoleAntlr
+﻿namespace CreoleAntlr.FullCreole
 {
 	public class CreoleListener : CreoleBaseListener
 	{

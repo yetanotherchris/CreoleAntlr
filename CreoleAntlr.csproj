@@ -49,29 +49,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreoleListener.cs" />
-    <Compile Include="CreoleVisitor.cs" />
+    <Compile Include="Formatting\FormattingListener.cs" />
+    <Compile Include="Formatting\FormattingRunner.cs" />
+    <Compile Include="FullCreole\CreoleListener.cs" />
+    <Compile Include="FullCreole\CreoleVisitor.cs" />
+    <Compile Include="FullCreole\FullCreoleRunner.cs" />
     <Compile Include="HtmlBuilder.cs" />
-    <Compile Include="ParagraphListener.cs" />
-    <Compile Include="ParagraphVisitor.cs" />
+    <Compile Include="Paragraphs\ParagraphRunner.cs" />
+    <Compile Include="Paragraphs\ParagraphListener.cs" />
+    <Compile Include="Paragraphs\ParagraphVisitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Antlr4 Include="grammars\Creole.g4">
+    <Antlr4 Include="FullCreole\Creole.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>CreoleAntlr</CustomToolNamespace>
     </Antlr4>
-    <Antlr4 Include="grammars\CreoleParagraphs.g4">
+    <Antlr4 Include="Paragraphs\CreoleParagraphs.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>CreoleAntlr</CustomToolNamespace>
       <ForceAtn>False</ForceAtn>
     </Antlr4>
+    <Antlr4 Include="Formatting\CreoleFormatting.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>CreoleAntlr</CustomToolNamespace>
+    </Antlr4>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="testinput.txt">
+    <Content Include="formatting-testinput.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="paragraphs-testinput.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

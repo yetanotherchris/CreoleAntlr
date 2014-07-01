@@ -1,4 +1,4 @@
-﻿namespace CreoleAntlr
+﻿namespace CreoleAntlr.Paragraphs
 {
 	public class ParagraphListener : CreoleParagraphsBaseListener
 	{

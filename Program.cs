@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
-using HtmlAgilityPack;
+using CreoleAntlr.Formatting;
+using CreoleAntlr.Paragraphs;
 
 namespace CreoleAntlr
 {
@@ -24,45 +19,8 @@ namespace CreoleAntlr
 	{
 		private static void Main(string[] args)
 		{
-			RunParagraphParser();
+			FormattingRunner.Run();
 			Console.ReadLine();
-		}
-
-		static void RunParagraphParser()
-		{
-			AntlrInputStream inputStream = new AntlrInputStream(File.OpenText("testinput.txt"));
-			CreoleParagraphsLexer creoleLexer = new CreoleParagraphsLexer(inputStream);
-			CommonTokenStream commonTokenStream = new CommonTokenStream(creoleLexer);
-
-			HtmlBuilder htmlBuilder = new HtmlBuilder();
-			ParagraphListener listener = new ParagraphListener(htmlBuilder);
-
-			CreoleParagraphsParser parser = new CreoleParagraphsParser(commonTokenStream);
-			parser.AddParseListener(listener);
-
-			IParseTree tree = parser.file();
-			Console.WriteLine(htmlBuilder);
-		}
-
-		static void RunFullParser()
-		{
-			AntlrInputStream inputStream = new AntlrInputStream(File.OpenText("testinput.txt"));
-			CreoleLexer creoleLexer = new CreoleLexer(inputStream);
-			CommonTokenStream commonTokenStream = new CommonTokenStream(creoleLexer);
-
-			HtmlBuilder htmlBuilder = new HtmlBuilder();
-			CreoleListener listener = new CreoleListener(htmlBuilder);
-			
-			CreoleParser parser = new CreoleParser(commonTokenStream);
-			parser.AddParseListener(listener);
-			
-			IParseTree tree = parser.document();
-
-			var visitor = new CreoleVisitor(htmlBuilder);
-			visitor.Visit(tree);
-			HtmlDocument doc = htmlBuilder.Document;
-			//Console.WriteLine(doc.DocumentNode.InnerHtml);
-			Console.WriteLine(htmlBuilder);
 		}
 	}
 }
