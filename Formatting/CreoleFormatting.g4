@@ -1,15 +1,16 @@
 grammar CreoleFormatting;
 
-file: both | text* | linebreak* EOF;
+file: (text | linebreak | WS)* EOF;
 
 // Linebreak		: \\
 // Horizontal rule	: ----
 // Bold			: **bold**
 // Italic		: //italic//
 
-both: (text | linebreak)*;
 text: TEXT;
 linebreak: LINEBREAK;
 
+TEXT: ~(['\\'])+;
+
 LINEBREAK: '\\'+;
-TEXT: ~('\\')+;
+NL: [\n]+ -> skip ;

@@ -12,7 +12,7 @@
 		public override void ExitText(CreoleFormattingParser.TextContext context)
 		{
 			string text = context.GetText();
-			_htmlBuilder.SetText(text);
+			_htmlBuilder.SetText("{" + text + "}");
 		}
 
 		public override void ExitLinebreak(CreoleFormattingParser.LinebreakContext context)

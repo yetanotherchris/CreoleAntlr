@@ -14,7 +14,7 @@ namespace CreoleAntlr.Formatting
 		public static void Run()
 		{
 			AntlrInputStream inputStream = new AntlrInputStream(File.OpenText("formatting-testinput.txt"));
-			CreoleParagraphsLexer creoleLexer = new CreoleParagraphsLexer(inputStream);
+			CreoleFormattingLexer creoleLexer = new CreoleFormattingLexer(inputStream);
 			CommonTokenStream commonTokenStream = new CommonTokenStream(creoleLexer);
 
 			HtmlBuilder htmlBuilder = new HtmlBuilder();
@@ -23,6 +23,7 @@ namespace CreoleAntlr.Formatting
 			CreoleFormattingParser parser = new CreoleFormattingParser(commonTokenStream);
 			parser.AddParseListener(listener);
 
+			//Console.WriteLine(parser.file().ToStringTree());
 			IParseTree tree = parser.file();
 			Console.WriteLine(htmlBuilder);
 		}
