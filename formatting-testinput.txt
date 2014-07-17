@@ -1,3 +1,5 @@
 Here is a line break\\it should also add one here\\
 
+**some bold**
+
 \\another here

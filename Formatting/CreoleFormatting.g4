@@ -1,16 +1,19 @@
 grammar CreoleFormatting;
 
-file: (text | linebreak | WS)* EOF;
+file: (text | linebreak | bold | WS)* EOF;
 
 // Linebreak		: \\
 // Horizontal rule	: ----
 // Bold			: **bold**
 // Italic		: //italic//
 
+bold: STARS text STARS;
 text: TEXT;
+
 linebreak: LINEBREAK;
 
-TEXT: ~(['\\'])+;
+TEXT: ~(['\\''**'])+;
 
+STARS: '**';
 LINEBREAK: '\\'+;
 NL: [\n]+ -> skip ;
